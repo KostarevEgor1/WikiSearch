@@ -3,6 +3,11 @@ package wikisearch;
 import java.util.List;
 
 public class ConsoleOutput {
+    public void printBrowserError(String url) {
+        System.out.println("Не удалось открыть браузер. Откройте ссылку вручную:");
+        System.out.println(url);
+    }
+
     public void printNoResults() {
         System.out.println("Статьи не найдены.");
     }
