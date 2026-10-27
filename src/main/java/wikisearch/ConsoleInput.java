@@ -3,6 +3,9 @@ package wikisearch;
 import java.util.Scanner;
 
 public class ConsoleInput {
+    public static final int EXIT = 0;
+    public static final int BACK_TO_SEARCH = -1;
+
     private final Scanner scanner;
 
     public ConsoleInput(Scanner scanner) {
@@ -34,16 +37,20 @@ public class ConsoleInput {
 
     public int readArticleNumber(int resultsCount) {
         while (true) {
-            System.out.println("Введите номер статьи, которую хотите посмотреть или /exit для выхода:");
+            System.out.println("Введите номер статьи, /back для нового поиска или /exit для выхода:");
 
             if (!scanner.hasNextLine()) {
-                return 0;
+                return EXIT;
             }
 
             String userInput = scanner.nextLine().strip();
 
             if (userInput.equalsIgnoreCase("/exit")) {
-                return 0;
+                return EXIT;
+            }
+
+            if (userInput.equalsIgnoreCase("/back")) {
+                return BACK_TO_SEARCH;
             }
 
             try {
