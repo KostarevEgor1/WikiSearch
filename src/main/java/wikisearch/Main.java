@@ -1,6 +1,7 @@
 package wikisearch;
 
 import java.util.Scanner;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,6 +20,20 @@ public class Main {
             return;
         }
 
-        System.out.println(response);
+        WikipediaResponseParser parser = new WikipediaResponseParser();
+        List<SearchResult> results = parser.parse(response);
+
+        if (results == null) {
+            return;
+        }
+
+        if (results.isEmpty()) {
+            System.out.println("Статьи не найдены.");
+            return;
+        }
+
+        for (SearchResult result : results) {
+            System.out.println(result.getPageId() + ": " + result.getTitle());
+        }
     }
 }
