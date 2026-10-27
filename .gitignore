@@ -1,0 +1,33 @@
+# Maven build output
+/target/
+
+# Compiled Java files
+*.class
+
+# IntelliJ IDEA local settings
+/.idea/
+/out/
+*.iml
+*.iws
+*.ipr
+
+# Other editors
+/.vscode/
+/.classpath
+/.project
+/.settings/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs and temporary files
+*.log
+*.tmp
+*~
+
+# Local environment variables
+.env
+.env.*
+!.env.example
