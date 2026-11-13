@@ -24,39 +24,46 @@ public class WikiSearchApp {
     }
 
     public void run() {
-        String query = consoleInput.readSearchQuery();
-        if (query == null) {
-            return;
-        }
+        while (!Thread.currentThread().isInterrupted()) {
+            String query = consoleInput.readSearchQuery();
+            if (query == null) {
+                return;
+            }
 
-        String response = wikipediaClient.search(query);
-        if (response == null) {
-            return;
-        }
+            String response = wikipediaClient.search(query);
+            if (response == null) {
+                continue;
+            }
 
-        List<SearchResult> results = parser.parse(response);
-        if (results == null) {
-            return;
-        }
+            List<SearchResult> results = parser.parse(response);
+            if (results == null) {
+                continue;
+            }
 
-        if (results.isEmpty()) {
-            consoleOutput.printNoResults();
-            return;
-        }
+            if (results.isEmpty()) {
+                consoleOutput.printNoResults();
+                continue;
+            }
 
-        consoleOutput.printSearchResults(results);
-        int number = consoleInput.readArticleNumber(results.size());
-        if (number == 0) {
-            return;
-        }
+            while (true) {
+                consoleOutput.printSearchResults(results);
+                int number = consoleInput.readArticleNumber(results.size());
+                if (number == ConsoleInput.EXIT) {
+                    return;
+                }
+                if (number == ConsoleInput.BACK_TO_SEARCH) {
+                    break;
+                }
 
-        SearchResult selectedArticle = results.get(number - 1);
-        consoleOutput.printSelectedArticle(selectedArticle);
+                SearchResult selectedArticle = results.get(number - 1);
+                consoleOutput.printSelectedArticle(selectedArticle);
 
-        if (!browserOpener.open(selectedArticle.getPageId())) {
-            consoleOutput.printBrowserError(
-                    browserOpener.buildArticleUrl(selectedArticle.getPageId())
-            );
+                if (!browserOpener.open(selectedArticle.getPageId())) {
+                    consoleOutput.printBrowserError(
+                            browserOpener.buildArticleUrl(selectedArticle.getPageId())
+                    );
+                }
+            }
         }
     }
 }
