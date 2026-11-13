@@ -7,17 +7,20 @@ public class WikiSearchApp {
     private final ConsoleOutput consoleOutput;
     private final WikipediaClient wikipediaClient;
     private final WikipediaResponseParser parser;
+    private final BrowserOpener browserOpener;
 
     public WikiSearchApp(
             ConsoleInput consoleInput,
             ConsoleOutput consoleOutput,
             WikipediaClient wikipediaClient,
-            WikipediaResponseParser parser
+            WikipediaResponseParser parser,
+            BrowserOpener browserOpener
     ) {
         this.consoleInput = consoleInput;
         this.consoleOutput = consoleOutput;
         this.wikipediaClient = wikipediaClient;
         this.parser = parser;
+        this.browserOpener = browserOpener;
     }
 
     public void run() {
@@ -49,5 +52,11 @@ public class WikiSearchApp {
 
         SearchResult selectedArticle = results.get(number - 1);
         consoleOutput.printSelectedArticle(selectedArticle);
+
+        if (!browserOpener.open(selectedArticle.getPageId())) {
+            consoleOutput.printBrowserError(
+                    browserOpener.buildArticleUrl(selectedArticle.getPageId())
+            );
+        }
     }
 }

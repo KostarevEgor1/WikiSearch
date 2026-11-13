@@ -9,12 +9,14 @@ public class Main {
         ConsoleOutput consoleOutput = new ConsoleOutput();
         WikipediaClient wikipediaClient = new WikipediaClient();
         WikipediaResponseParser parser = new WikipediaResponseParser();
+        BrowserOpener browserOpener = new BrowserOpener();
 
         WikiSearchApp app = new WikiSearchApp(
                 consoleInput,
                 consoleOutput,
                 wikipediaClient,
-                parser
+                parser,
+                browserOpener
         );
         app.run();
     }
