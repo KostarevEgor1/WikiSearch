@@ -12,6 +12,13 @@ public class Main {
             return;
         }
 
-        System.out.println(query);
+        WikipediaClient wikipediaClient = new WikipediaClient();
+        String response = wikipediaClient.search(query);
+
+        if (response == null) {
+            return;
+        }
+
+        System.out.println(response);
     }
 }
